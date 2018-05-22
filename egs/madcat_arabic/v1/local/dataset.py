@@ -1,16 +1,27 @@
+#!/usr/bin/env python3
+
 # Copyright 2018 Johns Hopkins University (author: Yiwen Shao)
 # Apache 2.0
 
-""" This module provides a pytorch-fashion customized dataset class
+""" This module will be used for creating text localization mask on page image.
+ Given the word segmentation (bounding box around a word) for every word, it will
+ extract line segmentation. To extract line segmentation, it will take word bounding
+ boxes of a line as input, will create a minimum area bounding box that will contain
+ all corner points of word bounding boxes. The obtained bounding box (will not necessarily
+ be vertically or horizontally aligned).
 """
 
 import torch
+import xml.dom.minidom as minidom
 from torch.utils.data import Dataset, DataLoader
+from waldo.mar_utils import compute_hull
 from waldo.data_manipulation import convert_to_combined_image
 from waldo.data_transformation import randomly_crop_combined_image
+from waldo.core_config import CoreConfig
 
 
-class Dataset_dsb2018(Dataset):
+class Dataset_madcatar(Dataset):
+
     def __init__(self, path, c_cfg, size):
         # self.data is a dictionary with keys ['id', 'img', 'mask', 'object_class']
         self.data = torch.load(path)
@@ -41,18 +52,13 @@ class Dataset_dsb2018(Dataset):
 
 
 if __name__ == '__main__':
-    from waldo.core_config import CoreConfig
     import torchvision
     c_config = CoreConfig()
     c_config.read('exp/unet_5_10_sgd/configs/core.config')
-    trainset = Dataset_dsb2018('data/train_val/train.pth.tar',
+    trainset = Dataset_madcatar('data/train.pth.tar',
                                c_config, 128)
     trainloader = DataLoader(
         trainset, num_workers=1, batch_size=16, shuffle=True)
     data_iter = iter(trainloader)
     # data_iter.next()
     img, class_label, bound = data_iter.next()
-    # torchvision.utils.save_image(class_label[:, 0:1, :, :], 'class0.png')
-    # torchvision.utils.save_image(class_label[:, 1:2, :, :], 'class1.png')
-    # torchvision.utils.save_image(bound[:, 0:1, :, :], 'bound0.png')
-    # torchvision.utils.save_image(bound[:, 1:2, :, :], 'bound1.png')
