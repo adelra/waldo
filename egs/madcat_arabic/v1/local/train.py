@@ -7,10 +7,7 @@
     c * w * h and the output feature maps are of size (num_class + num_offset) * w * h
 """
 
-<<<<<<< HEAD
-=======
 import sys
->>>>>>> waldo-seg/master
 import torch
 import math
 import argparse
@@ -21,19 +18,14 @@ import torchvision
 import random
 from torchvision import transforms as tsf
 from models.Unet import UNet
-from dataset import Dataset_dsb2018
-<<<<<<< HEAD
-
-parser = argparse.ArgumentParser(description='Pytorch DSB2018 setup')
-=======
+from dataset import Dataset_madcatar
 from waldo.core_config import CoreConfig
 from unet_config import UnetConfig
 
 
-parser = argparse.ArgumentParser(description='Pytorch DSB2018 setup')
+parser = argparse.ArgumentParser(description='Pytorch MADCAT  Arabic setup')
 parser.add_argument('dir', type=str,
                     help='directory of output models and logs')
->>>>>>> waldo-seg/master
 parser.add_argument('--epochs', default=10, type=int,
                     help='number of total epochs to run')
 parser.add_argument('--start-epoch', default=0, type=int,
@@ -44,14 +36,11 @@ parser.add_argument('--print-freq', '-p', default=10, type=int,
                     help='print frequency (default: 10)')
 parser.add_argument('-b', '--batch-size', default=16, type=int,
                     help='mini-batch size (default: 16)')
-<<<<<<< HEAD
-=======
 parser.add_argument('--train-image-size', default=128, type=int,
                     help='The size of the parts of training images that we'
                     'train on (in order to form a fixed minibatch size).'
                     'These are derived from the input images'
                     ' by padding and then random cropping.')
->>>>>>> waldo-seg/master
 parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
                     help='initial learning rate')
 parser.add_argument('--momentum', default=0.9, type=float, help='momentum')
@@ -59,31 +48,9 @@ parser.add_argument('--nesterov', default=True,
                     type=bool, help='nesterov momentum')
 parser.add_argument('--weight-decay', '--wd', default=5e-4, type=float,
                     help='weight decay (default: 5e-4)')
-<<<<<<< HEAD
-parser.add_argument('--depth', default=5, type=int,
-                    help='Number of conv blocks.')
-parser.add_argument('--num-offsets', default=15, type=int,
-                    help='Number of points in offset list')
-parser.add_argument('--img-height', default=128, type=int,
-                    help='Height of resized images')
-parser.add_argument('--img-width', default=128, type=int,
-                    help='width of resized images')
-parser.add_argument('--img-channels', default=3, type=int,
-                    help='Number of channels of images')
-parser.add_argument('--name', default='Unet-5', type=str,
-                    help='name of experiment')
-parser.add_argument('--train-dir', default='data/train_val/split0.9_seed0', type=str,
+parser.add_argument('--train-dir', default='data', type=str,
                     help='Directory of processed training and validation data')
-parser.add_argument('--test-dir', default='data/test', type=str,
-                    help='Directory of processed test data')
-parser.add_argument('--num-classes', default=2, type=int,
-                    help='Number of classes to classify')
-parser.add_argument('--tensorboard',
-                    help='Log progress to TensorBoard', action='store_false')
-=======
-parser.add_argument('--train-dir', default='data/train_val', type=str,
-                    help='Directory of processed training and validation data')
-parser.add_argument('--test-dir', default='data/test', type=str,
+parser.add_argument('--test-dir', default='data', type=str,
                     help='Directory of processed test data')
 parser.add_argument('--tensorboard',
                     help='Log progress to TensorBoard', action='store_false')
@@ -91,7 +58,6 @@ parser.add_argument('--core-config', default='', type=str,
                     help='path of core configuration file')
 parser.add_argument('--unet-config', default='', type=str,
                     help='path of network configuration file')
->>>>>>> waldo-seg/master
 
 
 best_loss = 1
@@ -105,29 +71,6 @@ def main():
     if args.tensorboard:
         from tensorboard_logger import configure
         print("Using tensorboard")
-<<<<<<< HEAD
-        configure("exp/%s" % (args.name))
-
-    s_trans = tsf.Compose([
-        tsf.ToPILImage(),
-        tsf.Resize((args.img_height, args.img_width)),
-        tsf.ToTensor(),
-    ])
-
-    offset_list = generate_offsets(args.num_offsets)
-    print("offsets are: {}".format(offset_list))
-
-    train_data = args.train_dir + '/' + 'train.pth.tar'
-    val_data = args.train_dir + '/' + 'val.pth.tar'
-
-    trainset = Dataset_dsb2018(train_data, s_trans, offset_list,
-                               args.num_classes, args.img_height, args.img_width)
-    trainloader = torch.utils.data.DataLoader(
-        trainset, num_workers=1, batch_size=args.batch_size, shuffle=True)
-
-    valset = Dataset_dsb2018(val_data, s_trans, offset_list,
-                             args.num_classes, args.img_height, args.img_width)
-=======
         configure("%s" % (args.dir))
 
     # loading core configuration
@@ -166,14 +109,13 @@ def main():
     depth = u_config.depth
 
     train_data = args.train_dir + '/' + 'train.pth.tar'
-    val_data = args.train_dir + '/' + 'val.pth.tar'
+    val_data = args.train_dir + '/' + 'dev.pth.tar'
 
-    trainset = Dataset_dsb2018(train_data, c_config, args.train_image_size)
+    trainset = Dataset_madcatar(train_data, c_config, args.train_image_size)
     trainloader = torch.utils.data.DataLoader(
         trainset, num_workers=1, batch_size=args.batch_size, shuffle=True)
 
-    valset = Dataset_dsb2018(val_data, c_config, args.train_image_size)
->>>>>>> waldo-seg/master
+    valset = Dataset_madcatar(val_data, c_config, args.train_image_size)
     valloader = torch.utils.data.DataLoader(
         valset, num_workers=1, batch_size=args.batch_size)
 
@@ -185,16 +127,11 @@ def main():
           '{2} samples for validation'.format(NUM_ALL, NUM_TRAIN, NUM_VAL))
 
     # create model
-<<<<<<< HEAD
-    model = UNet(args.num_classes, len(offset_list),
-                 in_channels=3, depth=args.depth).cuda()
-=======
     model = UNet(num_classes, num_offsets,
                  in_channels=num_colors, depth=depth,
                  start_filts=start_filters,
                  up_mode=up_mode,
                  merge_mode=merge_mode).cuda()
->>>>>>> waldo-seg/master
 
     # get the number of model parameters
     print('Number of model parameters: {}'.format(
@@ -226,10 +163,6 @@ def main():
         is_best = val_loss < best_loss
         best_loss = min(val_loss, best_loss)
         save_checkpoint({
-<<<<<<< HEAD
-            'offset_list': offset_list,
-=======
->>>>>>> waldo-seg/master
             'epoch': epoch + 1,
             'state_dict': model.state_dict(),
             'best_prec1': best_loss,
@@ -237,22 +170,10 @@ def main():
     print('Best validation loss: ', best_loss)
 
     # visualize some example outputs
-<<<<<<< HEAD
-    outdir = 'exp/{}/imgs'.format(args.name)
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
-    sample(model, valloader, offset_list, outdir)
-
-    # # Load the best model and evaluate on test set
-    # checkpoint = torch.load('exp/%s/' %
-    #                         (args.name) + 'model_best.pth.tar')
-    # model.load_state_dict(checkpoint['state_dict'])
-=======
     outdir = '{}/imgs'.format(args.dir)
     if not os.path.exists(outdir):
         os.makedirs(outdir)
     sample(model, valloader, outdir, c_config)
->>>>>>> waldo-seg/master
 
 
 def Train(trainloader, model, optimizer, epoch):
@@ -263,15 +184,9 @@ def Train(trainloader, model, optimizer, epoch):
     end = time.time()
     for i, (input, class_label, bound) in enumerate(trainloader):
         adjust_learning_rate(optimizer, epoch + 1)
-<<<<<<< HEAD
-        input = torch.autograd.Variable(input.cuda())
-        bound = torch.autograd.Variable(bound.cuda(async=True))
-        class_label = torch.autograd.Variable(class_label.cuda(async=True))
-=======
         input = input.cuda()
         bound = bound.cuda(async=True)
         class_label = class_label.cuda(async=True)
->>>>>>> waldo-seg/master
 
         optimizer.zero_grad()
         output = model(input)
@@ -282,11 +197,7 @@ def Train(trainloader, model, optimizer, epoch):
         loss_fn = torch.nn.BCELoss()
         loss = loss_fn(output, target)
 
-<<<<<<< HEAD
-        losses.update(loss.data[0], args.batch_size)
-=======
         losses.update(loss.item(), args.batch_size)
->>>>>>> waldo-seg/master
 
         loss.backward()
         optimizer.step()
@@ -328,11 +239,7 @@ def Validate(validateloader, model, epoch):
         loss_fn = torch.nn.BCELoss()
         loss = loss_fn(output, target)
 
-<<<<<<< HEAD
-        losses.update(loss.data[0], args.batch_size)
-=======
         losses.update(loss.item(), args.batch_size)
->>>>>>> waldo-seg/master
 
         if i % args.print_freq == 0:
             print('Val: [{0}][{1}/{2}]\t'
@@ -347,49 +254,13 @@ def Validate(validateloader, model, epoch):
     return losses.avg
 
 
-<<<<<<< HEAD
-def sample(model, dataloader, offset_list, outdir):
-=======
 def sample(model, dataloader, outdir, core_config):
->>>>>>> waldo-seg/master
     """Visualize some predicted masks on training data to get a better intuition
        about the performance.
     """
     datailer = iter(dataloader)
     img, classification, bound = datailer.next()
     torchvision.utils.save_image(img, '{0}/raw.png'.format(outdir))
-<<<<<<< HEAD
-    for i in range(len(offset_list)):
-        torchvision.utils.save_image(
-            bound[:, i:i + 1, :, :], '{0}/bound_{1}.png'.format(outdir, i))
-    for i in range(args.num_classes):
-        torchvision.utils.save_image(
-            classification[:, i:i + 1, :, :], '{0}/class_{1}.png'.format(outdir, i))
-    img = torch.autograd.Variable(img).cuda()
-    predictions = model(img)
-    predictions = predictions.data
-    class_pred = predictions[:, :args.num_classes, :, :]
-    bound_pred = predictions[:, args.num_classes:, :, :]
-    for i in range(len(offset_list)):
-        torchvision.utils.save_image(
-            bound_pred[:, i:i + 1, :, :], '{0}/bound_pred{1}.png'.format(outdir, i))
-    for i in range(args.num_classes):
-        torchvision.utils.save_image(
-            class_pred[:, i:i + 1, :, :], '{0}/class_pred{1}.png'.format(outdir, i))
-
-
-def generate_offsets(num_offsets=15):
-    offset_list = []
-    size_ratio = 1.4
-    angle = math.pi * 5 / 9  # 100 degrees: just over 90 degrees.
-
-    for n in range(num_offsets):
-        x = round(math.cos(n * angle) * math.pow(size_ratio, n))
-        y = round(math.sin(n * angle) * math.pow(size_ratio, n))
-        offset_list.append((x, y))
-
-    return offset_list
-=======
     for i in range(len(core_config.offsets)):
         torchvision.utils.save_image(
             bound[:, i:i + 1, :, :], '{0}/bound_{1}.png'.format(outdir, i))
@@ -411,7 +282,6 @@ def generate_offsets(num_offsets=15):
             class_pred[:, i:i + 1, :, :], '{0}/class_pred{1}.png'.format(outdir, i))
 
     return img, class_pred, bound_pred
->>>>>>> waldo-seg/master
 
 
 def soft_dice_loss(inputs, targets):
@@ -438,23 +308,14 @@ def adjust_learning_rate(optimizer, epoch):
 
 def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
     """Saves checkpoint to disk"""
-<<<<<<< HEAD
-    directory = "exp/%s/" % (args.name)
-=======
     directory = "%s/" % (args.dir)
->>>>>>> waldo-seg/master
     if not os.path.exists(directory):
         os.makedirs(directory)
     filename = directory + filename
     torch.save(state, filename)
     if is_best:
-<<<<<<< HEAD
-        shutil.copyfile(filename, 'exp/%s/' %
-                        (args.name) + 'model_best.pth.tar')
-=======
         shutil.copyfile(filename, '%s/' %
                         (args.dir) + 'model_best.pth.tar')
->>>>>>> waldo-seg/master
 
 
 class AverageMeter(object):
@@ -478,3 +339,4 @@ class AverageMeter(object):
 
 if __name__ == '__main__':
     main()
+

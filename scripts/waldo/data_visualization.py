@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Copyright      2018  Johns Hopkins University (author: Daniel Povey)
 
 # Apache 2.0
@@ -32,6 +33,67 @@ def visualize_mask(x):
     validate_image_with_mask(x)
     # ... do something, modifying x somehow
     return None
+=======
+# Copyright      2018  Johns Hopkins University (author: Daniel Povey, Desh Raj, Adel Rahimi)
+
+# Apache 2.0
+import matplotlib
+matplotlib.use('Agg')
+
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
+from io import BytesIO
+
+from waldo.data_types import *
+
+
+def visualize_mask(x, c, transparency=0.3):
+    """
+    This function accepts an object x that should represent an image with a
+    mask, a config class c, and a float 0 < transparency < 1.  
+    It changes the image in-place by overlaying the mask with transparency 
+    described by the parameter.
+    x['img_with_mask'] = image with transparent mask overlay
+    """
+
+    def get_cmap(n, name='hsv'):
+        '''Returns a function that maps each index in 0, 1, ..., n-1 to a distinct 
+        RGB color; the keyword argument name must be a standard mpl colormap name.
+        '''
+        return plt.cm.get_cmap(name, n)
+
+
+    def get_colored_mask(mask, n, cmap):
+        """Given a BW mask, number of objects, and a LinearSegmentedColormap object, 
+        returns a RGB mask.
+        """
+        color_mask = np.array([cmap(i) for i in mask])
+        return np.array(color_mask)
+
+
+
+    validate_image_with_mask(x, c)
+    im = x['img']
+    mask = x['mask']
+    
+    num_objects = np.unique(mask).shape[0]
+    cmap = get_cmap(num_objects)
+    mask_rgb = get_colored_mask(mask,num_objects,cmap)
+
+    plt.imshow(im)
+    plt.imshow(mask_rgb, alpha=transparency)
+    plt.subplots_adjust(0,0,1,1)
+    buffer_ = BytesIO()
+    plt.savefig(buffer_, format = "png")
+    buffer_.seek(0)
+    image = Image.open(buffer_)
+    x['img_with_mask'] = np.array(image)
+    buffer_.close()
+    return x
+
+
+>>>>>>> waldo-seg/master
 
 def visualize_polygons(x):
     """This function accepts an object x that should represent an image with

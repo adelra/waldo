@@ -58,7 +58,11 @@ train_prop=0.9
 seed=0
 . parse_options.sh
 
+<<<<<<< HEAD
 mkdir -p data/train_val/split${train_prop}_seed${seed}
+=======
+mkdir -p data/train_val
+>>>>>>> waldo-seg/master
 mkdir -p data/test
 
 local/process_data.py --train-input $train_dir --test-input $test_dir --outdir data --train-prop $train_prop --img-channels 3 --seed $seed
