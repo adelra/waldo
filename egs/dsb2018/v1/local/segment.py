@@ -1,4 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+#!/usr/bin/env python3
+
+>>>>>>> waldo-seg/master
 =======
 #!/usr/bin/env python3
 
@@ -8,6 +13,7 @@ import argparse
 import os
 import sys
 <<<<<<< HEAD
+<<<<<<< HEAD
 import torchvision
 import random
 from torchvision import transforms as tsf
@@ -15,6 +21,8 @@ from models.Unet import UNet
 from dataset import Dataset_dsb2018
 from waldo.segmenter import ObjectSegmenter
 =======
+=======
+>>>>>>> waldo-seg/master
 import random
 import numpy as np
 from models.Unet import UNet
@@ -24,12 +32,16 @@ from waldo.segmenter import ObjectSegmenter
 from waldo.core_config import CoreConfig
 from waldo.data_visualization import visualize_mask
 from unet_config import UnetConfig
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
 
 parser = argparse.ArgumentParser(description='Pytorch DSB2018 setup')
 parser.add_argument('model', type=str,
                     help='path to final model')
+<<<<<<< HEAD
 <<<<<<< HEAD
 parser.add_argument('--img-height', default=128, type=int,
                     help='Height of resized images')
@@ -49,6 +61,8 @@ parser.add_argument('--num-offsets', default=10, type=int,
                     help='Number of points in offset list')
 
 =======
+=======
+>>>>>>> waldo-seg/master
 parser.add_argument('--dir', default='exp/unet', type=str,
                     help='directory to store segmentation results')
 parser.add_argument('--train-dir', default='./data/val.pth.tar', type=str,
@@ -62,6 +76,9 @@ parser.add_argument('--core-config', default='', type=str,
                     help='path of core configuration file')
 parser.add_argument('--unet-config', default='', type=str,
                     help='path of network configuration file')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 random.seed(0)
 
@@ -70,12 +87,15 @@ def main():
     global args
     args = parser.parse_args()
 <<<<<<< HEAD
+<<<<<<< HEAD
     args.batch_size = 1
     args.depth = 16
 
     # # of classes, # of offsets
     model = UNet(args.num_classes, args.num_offsets)
 =======
+=======
+>>>>>>> waldo-seg/master
     args.batch_size = 1  # only segment one image for experiment
 
     # loading core configuration
@@ -118,6 +138,9 @@ def main():
                  start_filts=start_filters,
                  up_mode=up_mode,
                  merge_mode=merge_mode)
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
     if os.path.isfile(args.model):
@@ -125,6 +148,7 @@ def main():
         checkpoint = torch.load(args.model,
                                 map_location=lambda storage, loc: storage)
         model.load_state_dict(checkpoint['state_dict'])
+<<<<<<< HEAD
 <<<<<<< HEAD
         model.cpu()
         offset_list = checkpoint['offset_list']
@@ -142,6 +166,8 @@ def main():
     testset = Dataset_dsb2018(args.val_data, s_trans, offset_list,
                               args.num_classes, args.img_height, args.img_width)
 =======
+=======
+>>>>>>> waldo-seg/master
         print("loaded.")
     else:
         print("=> no checkpoint found at '{}'".format(args.model))
@@ -151,12 +177,16 @@ def main():
     val_data = args.train_dir + '/' + 'val.pth.tar'
 
     testset = Dataset_dsb2018(val_data, c_config, args.train_image_size)
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     print('Total samples in the test set: {0}'.format(len(testset)))
 
     dataloader = torch.utils.data.DataLoader(
         testset, num_workers=1, batch_size=args.batch_size)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     data_iter = iter(dataloader)
     # data_iter.next()
@@ -198,6 +228,8 @@ def main():
         torchvision.utils.save_image(
             class_pred[i, :, :], 'class_pred{}.png'.format(i))
 =======
+=======
+>>>>>>> waldo-seg/master
     seg_dir = '{}/seg'.format(args.dir)
     if not os.path.exists(seg_dir):
         os.makedirs(seg_dir)
@@ -212,6 +244,9 @@ def main():
     x['mask'] = mask_pred.astype(int)
     x['object_class'] = object_class
     visualize_mask(x, c_config)
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
 

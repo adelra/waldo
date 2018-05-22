@@ -8,6 +8,10 @@
 """
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import sys
+>>>>>>> waldo-seg/master
 =======
 import sys
 >>>>>>> waldo-seg/master
@@ -23,9 +27,12 @@ from torchvision import transforms as tsf
 from models.Unet import UNet
 from dataset import Dataset_dsb2018
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 parser = argparse.ArgumentParser(description='Pytorch DSB2018 setup')
 =======
+=======
+>>>>>>> waldo-seg/master
 from waldo.core_config import CoreConfig
 from unet_config import UnetConfig
 
@@ -33,6 +40,9 @@ from unet_config import UnetConfig
 parser = argparse.ArgumentParser(description='Pytorch DSB2018 setup')
 parser.add_argument('dir', type=str,
                     help='directory of output models and logs')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 parser.add_argument('--epochs', default=10, type=int,
                     help='number of total epochs to run')
@@ -45,12 +55,18 @@ parser.add_argument('--print-freq', '-p', default=10, type=int,
 parser.add_argument('-b', '--batch-size', default=16, type=int,
                     help='mini-batch size (default: 16)')
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> waldo-seg/master
 parser.add_argument('--train-image-size', default=128, type=int,
                     help='The size of the parts of training images that we'
                     'train on (in order to form a fixed minibatch size).'
                     'These are derived from the input images'
                     ' by padding and then random cropping.')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
                     help='initial learning rate')
@@ -59,6 +75,7 @@ parser.add_argument('--nesterov', default=True,
                     type=bool, help='nesterov momentum')
 parser.add_argument('--weight-decay', '--wd', default=5e-4, type=float,
                     help='weight decay (default: 5e-4)')
+<<<<<<< HEAD
 <<<<<<< HEAD
 parser.add_argument('--depth', default=5, type=int,
                     help='Number of conv blocks.')
@@ -81,6 +98,8 @@ parser.add_argument('--num-classes', default=2, type=int,
 parser.add_argument('--tensorboard',
                     help='Log progress to TensorBoard', action='store_false')
 =======
+=======
+>>>>>>> waldo-seg/master
 parser.add_argument('--train-dir', default='data/train_val', type=str,
                     help='Directory of processed training and validation data')
 parser.add_argument('--test-dir', default='data/test', type=str,
@@ -91,6 +110,9 @@ parser.add_argument('--core-config', default='', type=str,
                     help='path of core configuration file')
 parser.add_argument('--unet-config', default='', type=str,
                     help='path of network configuration file')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
 
@@ -105,6 +127,7 @@ def main():
     if args.tensorboard:
         from tensorboard_logger import configure
         print("Using tensorboard")
+<<<<<<< HEAD
 <<<<<<< HEAD
         configure("exp/%s" % (args.name))
 
@@ -128,6 +151,8 @@ def main():
     valset = Dataset_dsb2018(val_data, s_trans, offset_list,
                              args.num_classes, args.img_height, args.img_width)
 =======
+=======
+>>>>>>> waldo-seg/master
         configure("%s" % (args.dir))
 
     # loading core configuration
@@ -173,6 +198,9 @@ def main():
         trainset, num_workers=1, batch_size=args.batch_size, shuffle=True)
 
     valset = Dataset_dsb2018(val_data, c_config, args.train_image_size)
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     valloader = torch.utils.data.DataLoader(
         valset, num_workers=1, batch_size=args.batch_size)
@@ -186,14 +214,20 @@ def main():
 
     # create model
 <<<<<<< HEAD
+<<<<<<< HEAD
     model = UNet(args.num_classes, len(offset_list),
                  in_channels=3, depth=args.depth).cuda()
 =======
+=======
+>>>>>>> waldo-seg/master
     model = UNet(num_classes, num_offsets,
                  in_channels=num_colors, depth=depth,
                  start_filts=start_filters,
                  up_mode=up_mode,
                  merge_mode=merge_mode).cuda()
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
     # get the number of model parameters
@@ -227,7 +261,10 @@ def main():
         best_loss = min(val_loss, best_loss)
         save_checkpoint({
 <<<<<<< HEAD
+<<<<<<< HEAD
             'offset_list': offset_list,
+=======
+>>>>>>> waldo-seg/master
 =======
 >>>>>>> waldo-seg/master
             'epoch': epoch + 1,
@@ -237,6 +274,7 @@ def main():
     print('Best validation loss: ', best_loss)
 
     # visualize some example outputs
+<<<<<<< HEAD
 <<<<<<< HEAD
     outdir = 'exp/{}/imgs'.format(args.name)
     if not os.path.exists(outdir):
@@ -248,10 +286,15 @@ def main():
     #                         (args.name) + 'model_best.pth.tar')
     # model.load_state_dict(checkpoint['state_dict'])
 =======
+=======
+>>>>>>> waldo-seg/master
     outdir = '{}/imgs'.format(args.dir)
     if not os.path.exists(outdir):
         os.makedirs(outdir)
     sample(model, valloader, outdir, c_config)
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
 
@@ -264,9 +307,15 @@ def Train(trainloader, model, optimizer, epoch):
     for i, (input, class_label, bound) in enumerate(trainloader):
         adjust_learning_rate(optimizer, epoch + 1)
 <<<<<<< HEAD
+<<<<<<< HEAD
         input = torch.autograd.Variable(input.cuda())
         bound = torch.autograd.Variable(bound.cuda(async=True))
         class_label = torch.autograd.Variable(class_label.cuda(async=True))
+=======
+        input = input.cuda()
+        bound = bound.cuda(async=True)
+        class_label = class_label.cuda(async=True)
+>>>>>>> waldo-seg/master
 =======
         input = input.cuda()
         bound = bound.cuda(async=True)
@@ -283,7 +332,11 @@ def Train(trainloader, model, optimizer, epoch):
         loss = loss_fn(output, target)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         losses.update(loss.data[0], args.batch_size)
+=======
+        losses.update(loss.item(), args.batch_size)
+>>>>>>> waldo-seg/master
 =======
         losses.update(loss.item(), args.batch_size)
 >>>>>>> waldo-seg/master
@@ -329,7 +382,11 @@ def Validate(validateloader, model, epoch):
         loss = loss_fn(output, target)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         losses.update(loss.data[0], args.batch_size)
+=======
+        losses.update(loss.item(), args.batch_size)
+>>>>>>> waldo-seg/master
 =======
         losses.update(loss.item(), args.batch_size)
 >>>>>>> waldo-seg/master
@@ -348,7 +405,11 @@ def Validate(validateloader, model, epoch):
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def sample(model, dataloader, offset_list, outdir):
+=======
+def sample(model, dataloader, outdir, core_config):
+>>>>>>> waldo-seg/master
 =======
 def sample(model, dataloader, outdir, core_config):
 >>>>>>> waldo-seg/master
@@ -358,6 +419,7 @@ def sample(model, dataloader, outdir, core_config):
     datailer = iter(dataloader)
     img, classification, bound = datailer.next()
     torchvision.utils.save_image(img, '{0}/raw.png'.format(outdir))
+<<<<<<< HEAD
 <<<<<<< HEAD
     for i in range(len(offset_list)):
         torchvision.utils.save_image(
@@ -390,6 +452,8 @@ def generate_offsets(num_offsets=15):
 
     return offset_list
 =======
+=======
+>>>>>>> waldo-seg/master
     for i in range(len(core_config.offsets)):
         torchvision.utils.save_image(
             bound[:, i:i + 1, :, :], '{0}/bound_{1}.png'.format(outdir, i))
@@ -411,6 +475,9 @@ def generate_offsets(num_offsets=15):
             class_pred[:, i:i + 1, :, :], '{0}/class_pred{1}.png'.format(outdir, i))
 
     return img, class_pred, bound_pred
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
 
@@ -439,7 +506,11 @@ def adjust_learning_rate(optimizer, epoch):
 def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
     """Saves checkpoint to disk"""
 <<<<<<< HEAD
+<<<<<<< HEAD
     directory = "exp/%s/" % (args.name)
+=======
+    directory = "%s/" % (args.dir)
+>>>>>>> waldo-seg/master
 =======
     directory = "%s/" % (args.dir)
 >>>>>>> waldo-seg/master
@@ -449,8 +520,13 @@ def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
     torch.save(state, filename)
     if is_best:
 <<<<<<< HEAD
+<<<<<<< HEAD
         shutil.copyfile(filename, 'exp/%s/' %
                         (args.name) + 'model_best.pth.tar')
+=======
+        shutil.copyfile(filename, '%s/' %
+                        (args.dir) + 'model_best.pth.tar')
+>>>>>>> waldo-seg/master
 =======
         shutil.copyfile(filename, '%s/' %
                         (args.dir) + 'model_best.pth.tar')

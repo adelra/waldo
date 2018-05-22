@@ -59,7 +59,11 @@ seed=0
 . parse_options.sh
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 mkdir -p data/train_val/split${train_prop}_seed${seed}
+=======
+mkdir -p data/train_val
+>>>>>>> waldo-seg/master
 =======
 mkdir -p data/train_val
 >>>>>>> waldo-seg/master

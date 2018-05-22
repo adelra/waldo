@@ -3,6 +3,7 @@
 # Apache 2.0
 import numpy as np
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 def validate_config(c):
@@ -74,6 +75,8 @@ def validate_config(c):
             raise ValueError('(-x,-y) should not be present in offset list')
     return
 =======
+=======
+>>>>>>> waldo-seg/master
 from waldo.core_config import CoreConfig  # import waldo.core_config
 
 
@@ -84,6 +87,9 @@ def validate_config(c, train_image_size=None):
     """
     assert isinstance(c, CoreConfig)
     c.validate(train_image_size)
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
 
@@ -93,6 +99,7 @@ def validate_image_with_mask(x, c):
     by 'validate_config'.  This function returns no value; on failure
     it raises an exception.  Specifically it is checking that:
 <<<<<<< HEAD
+<<<<<<< HEAD
       x['img'] is a numpy array of shape (num_colors, width, height),
             num_colors is c['num_colors'].
       x['mask'] is an integer numpy array of the same size as x['img'] containing
@@ -101,6 +108,8 @@ def validate_image_with_mask(x, c):
             object classes should be in the range 0 .. num_classes - 1, where
             num_classes is c['num_classes'].."""
 =======
+=======
+>>>>>>> waldo-seg/master
       x['img'] is a numpy array of shape (height, width, num_colors),
             num_colors is c.num_colors.
       x['mask'] is an integer numpy array of shape (height,width) containing
@@ -108,6 +117,9 @@ def validate_image_with_mask(x, c):
       x['object_class'] is a list indexed by object-id giving the class of each object;
             object classes should be in the range 0 .. num_classes - 1, where
             num_classes is c.num_classes."""
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     validate_config(c)
     if type(x) != dict:
@@ -115,7 +127,12 @@ def validate_image_with_mask(x, c):
 
     if 'img' not in x or 'mask' not in x or 'object_class' not in x:
 <<<<<<< HEAD
+<<<<<<< HEAD
         raise ValueError('img, mask and object_class required in the dict input.')
+=======
+        raise ValueError(
+            'img, mask and object_class required in the dict input.')
+>>>>>>> waldo-seg/master
 =======
         raise ValueError(
             'img, mask and object_class required in the dict input.')
@@ -128,6 +145,7 @@ def validate_image_with_mask(x, c):
     if not isinstance(x['object_class'], (list,)):
         raise ValueError('list type object_class required.')
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     n_classes, n_colors = c['num_classes'], c['num_colors']
     im = x['img']
@@ -150,6 +168,8 @@ def validate_image_with_mask(x, c):
     object_class_list = x['object_class']
     if not set(object_class_list) < set(range(0, n_classes)):
 =======
+=======
+>>>>>>> waldo-seg/master
     n_classes, n_colors = c.num_classes, c.num_colors
     im = x['img']
     dims = im.shape
@@ -179,12 +199,16 @@ def validate_image_with_mask(x, c):
 
     object_class_list = x['object_class']
     if set(object_class_list) > set(range(0, n_classes)):
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
         raise ValueError('object classes between 0 and num_classes required')
 
     return
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 def validate_image_with_objects(x, c):
     """This function validates an object x that is supposed to represent an image
@@ -197,6 +221,8 @@ def validate_image_with_objects(x, c):
            where num_colors is c['num_colors'].
       x['objects'] is a sorted list of elements y satisfying validate_object(y).
 =======
+=======
+>>>>>>> waldo-seg/master
 def validate_compressed_image_with_mask(x, c):
     """This function validates an object x that is supposed to represent a compressed
     image with the corresponding object mask.  c is the config object as validated
@@ -238,6 +264,9 @@ def validate_image_with_objects(x, c):
            where num_colors is c.num_colors'].
       x['objects'] is a sorted list of elements y satisfying validate_object(y).
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     """
     validate_config(c)
@@ -254,6 +283,7 @@ def validate_image_with_objects(x, c):
         raise ValueError('objects of list type required.')
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     n_colors = c['num_colors']
     im = x['img']
     dims = im.shape
@@ -263,6 +293,8 @@ def validate_image_with_objects(x, c):
         raise ValueError('first dimension of np.array should match with config num colors')
 
 =======
+=======
+>>>>>>> waldo-seg/master
     n_colors = c.num_colors
     im = x['img']
     dims = im.shape
@@ -277,6 +309,9 @@ def validate_image_with_objects(x, c):
         if dims[2] != n_colors:
             raise ValueError(
                 'first dimension of np.array should match with config num colors')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     return
 
@@ -332,8 +367,13 @@ def validate_combined_image(x, c):
     up before we actually train the network.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     A combined image should be a numpy array with shape (dim, width, height),
     where 'dim' equals num_colors + 2 * (num_classes + num_offsets)
+=======
+    A combined image should be a numpy array with shape (num_channels, height, width),
+    where 'num_channels' equals num_colors + 2 * (num_classes + num_offsets)
+>>>>>>> waldo-seg/master
 =======
     A combined image should be a numpy array with shape (num_channels, height, width),
     where 'num_channels' equals num_colors + 2 * (num_classes + num_offsets)
@@ -364,6 +404,7 @@ def validate_combined_image(x, c):
         raise ValueError('3 dimensional image required.')
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     n_colors = c['num_colors']
     n_classes = c['num_classes']
     n_offsets = c['num_offsets']
@@ -384,6 +425,8 @@ def validate_combined_image(x, c):
         raise ValueError('unique values 0, 1 expected)')
 
 =======
+=======
+>>>>>>> waldo-seg/master
     n_colors = c.num_colors
     n_classes = c.num_classes
     n_offsets = len(c.offsets)
@@ -399,5 +442,8 @@ def validate_combined_image(x, c):
     j = np.random.randint(0, dims[2])
     if not (x[k, i, j] == 0 or x[k, i, j] == 1):
         raise ValueError('unique values 0, 1 expected)')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     return

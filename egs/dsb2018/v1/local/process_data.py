@@ -56,6 +56,7 @@ def DataProcess(input_path, channels, mode='train', train_prop=0.9):
                                       '.png'))[:, :, :channels]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             train_item['img'] = torch.from_numpy(img)
             mask = None
             object_id = 1
@@ -63,12 +64,17 @@ def DataProcess(input_path, channels, mode='train', train_prop=0.9):
                 mask_ = np.array(Image.open(path + '/masks/' + mask_file)
                                  ).astype(float) / 255.0
 =======
+=======
+>>>>>>> waldo-seg/master
             train_item['img'] = img
             mask = None
             object_id = 1
             for mask_file in next(os.walk(path + '/masks/'))[2]:
                 mask_ = (np.array(Image.open(path + '/masks/' + mask_file)
                                   ) / 255).astype('uint8')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
                 if mask is None:
                     mask = mask_
@@ -76,13 +82,19 @@ def DataProcess(input_path, channels, mode='train', train_prop=0.9):
                     mask = np.maximum(mask, mask_ * object_id)
                 object_id += 1
 <<<<<<< HEAD
+<<<<<<< HEAD
             train_item['mask'] = torch.from_numpy(mask)
 =======
+=======
+>>>>>>> waldo-seg/master
             train_item['mask'] = mask
             # only object ID 0 belongs to background
             object_class = np.ones(object_id)
             object_class[0] = 0
             train_item['object_class'] = object_class.tolist()
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
             train.append(train_item)
 
@@ -96,6 +108,7 @@ def DataProcess(input_path, channels, mode='train', train_prop=0.9):
                                       id_ + '.png'))[:, :, :channels]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             val_item['img'] = torch.from_numpy(img)
             mask = None
             object_id = 1
@@ -103,12 +116,17 @@ def DataProcess(input_path, channels, mode='train', train_prop=0.9):
                 mask_ = np.array(Image.open(path + '/masks/' + mask_file)
                                  ).astype(float) / 255.0
 =======
+=======
+>>>>>>> waldo-seg/master
             val_item['img'] = img
             mask = None
             object_id = 1
             for mask_file in next(os.walk(path + '/masks/'))[2]:
                 mask_ = (np.array(Image.open(path + '/masks/' + mask_file)
                                   ) / 255).astype('uint8')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
                 if mask is None:
                     mask = mask_
@@ -116,12 +134,18 @@ def DataProcess(input_path, channels, mode='train', train_prop=0.9):
                     mask = np.maximum(mask, mask_ * object_id)
                 object_id += 1
 <<<<<<< HEAD
+<<<<<<< HEAD
             val_item['mask'] = torch.from_numpy(mask)
 =======
+=======
+>>>>>>> waldo-seg/master
             val_item['mask'] = mask
             object_class = np.ones(object_id)
             object_class[0] = 0
             val_item['object_class'] = object_class.tolist()
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
             val.append(val_item)
 
@@ -141,7 +165,11 @@ def DataProcess(input_path, channels, mode='train', train_prop=0.9):
             img = np.array(Image.open(path + '/images/' +
                                       id_ + '.png'))[:, :, :channels]
 <<<<<<< HEAD
+<<<<<<< HEAD
             test_item['img'] = torch.from_numpy(img)
+=======
+            test_item['img'] = img
+>>>>>>> waldo-seg/master
 =======
             test_item['img'] = img
 >>>>>>> waldo-seg/master
@@ -156,9 +184,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     train_output = "{0}/train_val/split{1}_seed{2}/train.pth.tar".format(
         args.outdir, args.train_prop, args.seed)
     val_output = "{0}/train_val/split{1}_seed{2}/val.pth.tar".format(
+=======
+    train_output = "{0}/train_val/train.pth.tar".format(
+        args.outdir, args.train_prop, args.seed)
+    val_output = "{0}/train_val/val.pth.tar".format(
+>>>>>>> waldo-seg/master
 =======
     train_output = "{0}/train_val/train.pth.tar".format(
         args.outdir, args.train_prop, args.seed)

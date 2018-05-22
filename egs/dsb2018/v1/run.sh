@@ -6,6 +6,7 @@ set -e # exit on error
 stage=0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # train/validate split
 train_prop=0.9
 seed=0
@@ -21,10 +22,15 @@ batch=16
 . parse_options.sh  # e.g. this parses the --stage option if supplied.
 
 >>>>>>> waldo-seg/master
+=======
+. parse_options.sh  # e.g. this parses the --stage option if supplied.
+
+>>>>>>> waldo-seg/master
 
 . ./cmd.sh ## You'll want to change cmd.sh to something that will work on your system.
            ## This relates to the queue.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 . parse_options.sh  # e.g. this parses the --stage option if supplied.
 
@@ -32,18 +38,24 @@ batch=16
 local/check_dependencies.sh
 
 =======
+=======
+>>>>>>> waldo-seg/master
 local/check_dependencies.sh
 
 
 # train/validate split
 train_prop=0.9
 seed=0
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 if [ $stage -le 0 ]; then
   # data preparation
   local/prepare_data.sh --train_prop $train_prop --seed $seed
 fi
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 name=unet_${depth}_${epochs}_sgd
 if [ $stage -le 1 ]; then
@@ -58,6 +70,8 @@ if [ $stage -le 1 ]; then
             --img-width $width \
             --epochs $epochs
 =======
+=======
+>>>>>>> waldo-seg/master
 
 epochs=10
 depth=5
@@ -77,5 +91,8 @@ if [ $stage -le 2 ]; then
     --unet-config $dir/configs/unet.config \
     $dir/model_best.pth.tar
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 fi

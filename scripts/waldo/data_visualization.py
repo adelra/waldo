@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Copyright      2018  Johns Hopkins University (author: Daniel Povey)
 
 # Apache 2.0
@@ -34,6 +35,8 @@ def visualize_mask(x):
     # ... do something, modifying x somehow
     return None
 =======
+=======
+>>>>>>> waldo-seg/master
 # Copyright      2018  Johns Hopkins University (author: Daniel Povey, Desh Raj, Adel Rahimi)
 
 # Apache 2.0
@@ -93,6 +96,9 @@ def visualize_mask(x, c, transparency=0.3):
     return x
 
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
 def visualize_polygons(x):

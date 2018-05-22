@@ -7,6 +7,7 @@
 import numpy as np
 from PIL import Image, ImageDraw
 <<<<<<< HEAD
+<<<<<<< HEAD
 from data_types import *
 
 
@@ -17,6 +18,8 @@ def convert_to_mask(x):
      """
     validate_image_with_objects(x)
 =======
+=======
+>>>>>>> waldo-seg/master
 from math import hypot
 from waldo.data_types import *
 from waldo.mar_utils import get_mar
@@ -33,12 +36,16 @@ def convert_to_mask(x, c):
         x['object_class']: an array mapping object ids to their respective classes.
      """
     validate_image_with_objects(x, c)
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
     im = x['img']
     object_id = 0
     y = dict()
     y['img'] = im
+<<<<<<< HEAD
 <<<<<<< HEAD
     mask_img = Image.new('L', (im.size[0], im.size[1]), 0)
     mask_img_arr = np.array(mask_img)
@@ -62,6 +69,8 @@ def convert_to_mask(x, c):
 
 
 =======
+=======
+>>>>>>> waldo-seg/master
     mask_img = Image.new('L', (im.shape[1], im.shape[0]), 0)
     mask_img_arr = np.array(mask_img)
 
@@ -114,6 +123,9 @@ def compress_image_with_mask(x, c):
 
 
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 def convert_polygon_to_points(polygon):
     """  This function accepts an object representing a polygon as a list of
@@ -136,7 +148,10 @@ def convert_polygon_to_points(polygon):
         points_list.append((x, y))
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> waldo-seg/master
     validate_polygon(points_list)
 
     return points_list
@@ -156,13 +171,20 @@ def get_minimum_bounding_box(polygon):
 
     validate_polygon(points_list)
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     return points_list
 
 
 def convert_to_combined_image(x, c):
 <<<<<<< HEAD
+<<<<<<< HEAD
     """ This function turns an 'image-with-mask' x into a 'combined' image,
+=======
+    """ This function processes an 'image-with-mask' x into a 'combined' image,
+>>>>>>> waldo-seg/master
 =======
     """ This function processes an 'image-with-mask' x into a 'combined' image,
 >>>>>>> waldo-seg/master
@@ -171,6 +193,11 @@ def convert_to_combined_image(x, c):
     a combined image is.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    This function returns the 'combined' image; it does not modify x.
+
+>>>>>>> waldo-seg/master
 =======
     This function returns the 'combined' image; it does not modify x.
 
@@ -180,10 +207,13 @@ def convert_to_combined_image(x, c):
     """
     validate_config(c)
 <<<<<<< HEAD
+<<<<<<< HEAD
     validate_image_with_mask(x)
     y = dict()
     # # TODO.. set y.
 =======
+=======
+>>>>>>> waldo-seg/master
     validate_image_with_mask(x, c)
     im = np.moveaxis(x['img'], -1, 0)
     im = im.astype(float) / 256.0
@@ -213,6 +243,7 @@ def convert_to_combined_image(x, c):
         y[c.num_colors + c.num_classes + k] = offset_feature
         y[c.num_colors + num_outputs + c.num_classes + k] = 1 - offset_feature
 
+<<<<<<< HEAD
 >>>>>>> waldo-seg/master
     validate_combined_image(y, c)
     return y
@@ -232,10 +263,13 @@ def pad_combined_image(x, c):
         return None
 
     # TODO. set y.
+=======
+>>>>>>> waldo-seg/master
     validate_combined_image(y, c)
     return y
 
 
+<<<<<<< HEAD
 def randomly_crop_combined_image(x, c):
     """ This function randomly crops the combined image 'x' to the size
     c['train_image_size'] by c['train_image_size'], and returns the
@@ -250,6 +284,8 @@ def randomly_crop_combined_image(x, c):
     validate_combined_image(y, c)
     return y
 =======
+=======
+>>>>>>> waldo-seg/master
 def sort_object_list(objects):
     """Given a list of objects as defined in data_types, returns a new list sorted
     in descending order by the breadth (shorter side) of the rectangles.
@@ -281,4 +317,7 @@ def get_object_class(x):
     object ids to their respective classes.
     """
     # TODO
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 # Copyright      2018  Hossein Hadian
 
@@ -7,6 +8,8 @@
 """ This module contains codes and algorithms for post-processing the output of the nnet to
     find the objects in the image.
 =======
+=======
+>>>>>>> waldo-seg/master
 # Copyright      2018  Daniel Povey, Hossein Hadian
 
 # Apache 2.0
@@ -17,6 +20,9 @@
     objects, starting from individual pixels, and the only choice is in which
     order to merge objects.  At all stages of optimization, objects will maintain
     their optimal class assignment.
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 """
 
@@ -29,7 +35,10 @@ import resource
 import scipy.misc
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # offset_list = [(1, 1), (0, -2)]
+=======
+>>>>>>> waldo-seg/master
 =======
 >>>>>>> waldo-seg/master
 
@@ -46,7 +55,11 @@ class ObjPair:
 
     def __hash__(self):
 <<<<<<< HEAD
+<<<<<<< HEAD
         assert(self.obj1.id <= self.obj2.id)
+=======
+        assert self.obj1.id <= self.obj2.id
+>>>>>>> waldo-seg/master
 =======
         assert self.obj1.id <= self.obj2.id
 >>>>>>> waldo-seg/master
@@ -66,7 +79,10 @@ class Object:
     """
     This class represents an "object" in the output image.
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> waldo-seg/master
     Attributes:
         object_class:    A record of the current assigned class (an integer)
         pixels:    A set of pixels (2-tuples) that are part of the object
@@ -77,6 +93,9 @@ class Object:
                 this object is adjacent.  ('Adjacent' means "linked by an offset", not
                 adjacency in the normal sense). It's actually a map (from obj
                 pairs to adjacency record) for faster search and access.
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     """
 
@@ -85,7 +104,10 @@ class Object:
         self.compute_class_logprobs(segmenter)
         self.object_class = np.argmax(self.class_logprobs)
 <<<<<<< HEAD
+<<<<<<< HEAD
         # it's actually a map (from obj pairs to adj record) for faster search and access
+=======
+>>>>>>> waldo-seg/master
 =======
 >>>>>>> waldo-seg/master
         self.adjacency_list = {}
@@ -101,7 +123,10 @@ class Object:
         return self.class_logprobs[self.object_class]
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> waldo-seg/master
     def print(self):
         print("Object {}. Adj list:".format(self))
         for obj_pair in self.adjacency_list:
@@ -110,6 +135,9 @@ class Object:
         print("")
         print("Pixel list: {}".format(self.pixels))
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     def __hash__(self):
         return hash(self.id)
@@ -122,11 +150,14 @@ class Object:
 
     def __str__(self):
 <<<<<<< HEAD
+<<<<<<< HEAD
         return "<OBJ:{} class:{} npix:{}  nadj:{}>".format(self.id, self.object_class, len(self.pixels), len(self.adjacency_list))
 
 
 class AdjacencyRecord:
 =======
+=======
+>>>>>>> waldo-seg/master
         return "<OBJ:{} class:{} npix:{}  nadj:{}>".format(self.id,
                                                            self.object_class,
                                                            len(self.pixels),
@@ -170,6 +201,9 @@ class AdjacencyRecord:
               out class_delta_log_prob.
     """
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     def __init__(self, obj1, obj2, segmenter):
         self.obj1 = obj1
@@ -184,21 +218,31 @@ class AdjacencyRecord:
         self.update_merge_priority()
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     def compute_obj_merge_logprob(self, segmenter):
         logprob = 0
         for o, i in zip(segmenter.offsets, range(len(segmenter.offsets))):
 =======
+=======
+>>>>>>> waldo-seg/master
     def compute_obj_merge_logprob(self, segmenter):
         logprob = 0
         self.differentness_logprob = 0
         for i, o in enumerate(segmenter.offsets):
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
             for p1 in self.obj1.pixels:
                 p2 = (p1[0] + o[0], p1[1] + o[1])
                 if p2 in self.obj2.pixels:
                     same_prob = segmenter.get_sameness_prob(p1, i)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                    self.differentness_logprob += np.log(1.0 - same_prob)
+>>>>>>> waldo-seg/master
 =======
                     self.differentness_logprob += np.log(1.0 - same_prob)
 >>>>>>> waldo-seg/master
@@ -209,15 +253,21 @@ class AdjacencyRecord:
                 if p2 in self.obj1.pixels:
                     same_prob = segmenter.get_sameness_prob(p1, i)
 <<<<<<< HEAD
+<<<<<<< HEAD
                     logprob += np.log(same_prob) - np.log(1.0 - same_prob)
         self.obj_merge_logprob = logprob
 
 
 =======
+=======
+>>>>>>> waldo-seg/master
                     self.differentness_logprob += np.log(1.0 - same_prob)
                     logprob += np.log(same_prob) - np.log(1.0 - same_prob)
         self.obj_merge_logprob = logprob
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     def compute_class_delta_logprob(self):
         if self.obj1.object_class == self.obj2.object_class:
@@ -228,6 +278,7 @@ class AdjacencyRecord:
             merged_class_joint_logprob = joint_class_logprobs[self.merged_class]
             self.class_delta_logprob = merged_class_joint_logprob - \
 <<<<<<< HEAD
+<<<<<<< HEAD
                             self.obj1.class_logprob() - self.obj2.class_logprob()
 
     def update_merge_priority(self):
@@ -235,12 +286,17 @@ class AdjacencyRecord:
         den = (len(self.obj1.pixels) * len(self.obj2.pixels))
         self.merge_priority = (self.obj_merge_logprob +
 =======
+=======
+>>>>>>> waldo-seg/master
                 self.obj1.class_logprob() - self.obj2.class_logprob()
 
     def update_merge_priority(self):
         self.compute_class_delta_logprob()
         den = max(len(self.obj1.pixels), len(self.obj2.pixels))
         self.merge_priority = (self.obj_merge_logprob / 5.0 +
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
                                self.class_delta_logprob) / den
 
@@ -248,12 +304,18 @@ class AdjacencyRecord:
         return ObjPair(self.obj1, self.obj2)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> waldo-seg/master
     def print(self):
         print("Objects in arec {}:".format(self))
         self.obj1.print()
         self.obj2.print()
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
     def __eq__(self, other):
         return self.obj_pair() == other.obj_pair()
@@ -268,7 +330,11 @@ class AdjacencyRecord:
 
 class ObjectSegmenter:
 <<<<<<< HEAD
+<<<<<<< HEAD
     def __init__(self, nnet_class_probs, nnet_sameness_probs, num_classes, offsets):
+=======
+    def __init__(self, nnet_class_probs, nnet_sameness_probs, num_classes, offsets, dir):
+>>>>>>> waldo-seg/master
 =======
     def __init__(self, nnet_class_probs, nnet_sameness_probs, num_classes, offsets, dir):
 >>>>>>> waldo-seg/master
@@ -277,6 +343,10 @@ class ObjectSegmenter:
         self.num_classes = num_classes
         self.offsets = offsets  # should be a list of tuples
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        self.dir = dir
+>>>>>>> waldo-seg/master
 =======
         self.dir = dir
 >>>>>>> waldo-seg/master
@@ -285,8 +355,13 @@ class ObjectSegmenter:
         class_dim, img_width, img_height = self.class_probs.shape
         offset_dim, img_width, img_height = self.sameness_probs.shape
 <<<<<<< HEAD
+<<<<<<< HEAD
         assert(class_dim == self.num_classes)
         assert(offset_dim == len(self.offsets))
+=======
+        assert class_dim == self.num_classes
+        assert offset_dim == len(self.offsets)
+>>>>>>> waldo-seg/master
 =======
         assert class_dim == self.num_classes
         assert offset_dim == len(self.offsets)
@@ -329,6 +404,7 @@ class ObjectSegmenter:
 
     def get_class_logprob(self, pixel, class_index):
 <<<<<<< HEAD
+<<<<<<< HEAD
         assert(class_index < self.num_classes)
         return np.log(self.class_probs[class_index, pixel[0], pixel[1]])
 
@@ -341,6 +417,8 @@ class ObjectSegmenter:
         print("Total number of adjacency records: {}".format(
             len(self.adjacency_records)))
 =======
+=======
+>>>>>>> waldo-seg/master
         assert class_index < self.num_classes
         return np.log(self.class_probs[class_index, pixel[0], pixel[1]])
 
@@ -354,6 +432,9 @@ class ObjectSegmenter:
         print("Total number of objects: {}".format(len(self.objects)))
         print("Total number of adjacency records: "
               "{}".format(len(self.adjacency_records)))
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
         print("Total number of records in the queue: {}".format(len(self.queue)))
         pixperobj = sorted([len(obj.pixels)
@@ -367,16 +448,22 @@ class ObjectSegmenter:
     def compute_total_logprob(self):
         tot_class_logprob = 0
 <<<<<<< HEAD
+<<<<<<< HEAD
         for obj in self.objects.values():
             tot_class_logprob += obj.class_logprob()
 
 =======
+=======
+>>>>>>> waldo-seg/master
         tot_differentness_logprob = 0
         for obj in self.objects.values():
             tot_class_logprob += obj.class_logprob()
         for arec in self.adjacency_records.values():
             tot_differentness_logprob += arec.differentness_logprob
         return tot_class_logprob + tot_differentness_logprob
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
     def visualize(self, iter):
@@ -389,6 +476,7 @@ class ObjectSegmenter:
             img[int(center[0]), int(center[1])] = 0.0
             k += 1
 <<<<<<< HEAD
+<<<<<<< HEAD
         scipy.misc.imsave('{}.png'.format(iter), img)
 
     def run_segmentation(self):
@@ -398,6 +486,8 @@ class ObjectSegmenter:
         target_objs = 4  # for experimentation
         self.verbose = 1
 =======
+=======
+>>>>>>> waldo-seg/master
         scipy.misc.imsave('{}/{}.png'.format(self.dir, iter), img)
 
     def output_mask(self):
@@ -480,15 +570,24 @@ class ObjectSegmenter:
         target_objs = 10  # for experimentation
         self.verbose = 0
         self.do_debugging = False
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
         while self.queue:
             if len(self.objects) <= target_objs:
                 print("Target objects reached: {}".format(target_objs))
                 break
 <<<<<<< HEAD
+<<<<<<< HEAD
             if len(self.queue) < 1000:  # in case we want to see a few last steps of the algorithm
                 self.verbose = 1
             if n > 1000:
+=======
+            if len(self.queue) < 100:  # in case we want to see a few last steps of the algorithm
+                self.verbose = 1
+            if n > 100:
+>>>>>>> waldo-seg/master
 =======
             if len(self.queue) < 100:  # in case we want to see a few last steps of the algorithm
                 self.verbose = 1
@@ -501,7 +600,10 @@ class ObjectSegmenter:
                 self.show_stats()
                 print("")
 <<<<<<< HEAD
+<<<<<<< HEAD
                 #self.visualize(n)
+=======
+>>>>>>> waldo-seg/master
 =======
 >>>>>>> waldo-seg/master
             if n > N:
@@ -511,7 +613,12 @@ class ObjectSegmenter:
             merge_cost, arec = heappop(self.queue)
             if self.verbose >= 1:
 <<<<<<< HEAD
+<<<<<<< HEAD
                 print("Iter: {} Popped: {:0.2f},{}".format(n, merge_cost, arec), file=sys.stderr)
+=======
+                print("Iter: {} Popped: {:0.2f},{}".format(
+                    n, merge_cost, arec), file=sys.stderr)
+>>>>>>> waldo-seg/master
 =======
                 print("Iter: {} Popped: {:0.2f},{}".format(
                     n, merge_cost, arec), file=sys.stderr)
@@ -529,6 +636,11 @@ class ObjectSegmenter:
                         arec.merge_priority, merge_priority), file=sys.stderr)
                 self.merge(arec)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                if self.do_debugging and np.random.random() > 0.999:
+                    self.debug()
+>>>>>>> waldo-seg/master
 =======
                 if self.do_debugging and np.random.random() > 0.999:
                     self.debug()
@@ -548,9 +660,12 @@ class ObjectSegmenter:
         self.show_stats()
         self.visualize('final')
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     def merge(self, arec):
 =======
+=======
+>>>>>>> waldo-seg/master
         return self.output_mask()
 
     def merge(self, arec):
@@ -581,6 +696,9 @@ class ObjectSegmenter:
                 re-insert it into the queue.
         """
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
         obj1, obj2 = arec.obj1, arec.obj2
         if obj1.id not in self.objects or obj2.id not in self.objects:
@@ -588,8 +706,14 @@ class ObjectSegmenter:
         if obj1 is obj2:
             return
 <<<<<<< HEAD
+<<<<<<< HEAD
         if len(obj2.pixels) > len(obj1.pixels):  # swap them
             obj1, obj2 = obj2, obj1
+=======
+        if len(obj2.pixels) > len(obj1.pixels):
+            obj1, obj2 = obj2, obj1
+
+>>>>>>> waldo-seg/master
 =======
         if len(obj2.pixels) > len(obj1.pixels):
             obj1, obj2 = obj2, obj1
@@ -604,17 +728,23 @@ class ObjectSegmenter:
         del obj2.adjacency_list[arec.obj_pair()]
         for this_arec in obj2.adjacency_list.values():
 <<<<<<< HEAD
+<<<<<<< HEAD
             obj3 = this_arec.obj2 if this_arec.obj1 is obj2 else this_arec.obj1  # obj3 is any object adjacent to obj2 (never is obj1)
             del obj3.adjacency_list[this_arec.obj_pair()]
             del self.adjacency_records[this_arec.obj_pair()]
 
 =======
+=======
+>>>>>>> waldo-seg/master
             # obj3 is any object adjacent to obj2 (never is obj1)
             obj3 = this_arec.obj2 if this_arec.obj1 is obj2 else this_arec.obj1
             assert obj3 is not obj1
 
             del obj3.adjacency_list[this_arec.obj_pair()]
             del self.adjacency_records[this_arec.obj_pair()]
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
             if this_arec.obj1 is obj2:
                 this_arec.obj1 = obj1
@@ -624,7 +754,11 @@ class ObjectSegmenter:
             self.adjacency_records[this_arec.obj_pair()] = this_arec
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             assert(this_arec.obj1 is not this_arec.obj2)
+=======
+            assert this_arec.obj1 is not this_arec.obj2
+>>>>>>> waldo-seg/master
 =======
             assert this_arec.obj1 is not this_arec.obj2
 >>>>>>> waldo-seg/master
@@ -633,6 +767,11 @@ class ObjectSegmenter:
                 that_arec = obj1.adjacency_list[this_arec.obj_pair()]
                 that_arec.obj_merge_logprob += this_arec.obj_merge_logprob
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                that_arec.differentness_logprob += this_arec.differentness_logprob
+                obj3.adjacency_list[that_arec.obj_pair()] = that_arec
+>>>>>>> waldo-seg/master
 =======
                 that_arec.differentness_logprob += this_arec.differentness_logprob
                 obj3.adjacency_list[that_arec.obj_pair()] = that_arec
@@ -647,12 +786,17 @@ class ObjectSegmenter:
                     heappush(self.queue, (-this_arec.merge_priority, this_arec))
         if self.verbose >= 1:
 <<<<<<< HEAD
+<<<<<<< HEAD
             print("Deleting {} being merged to {} according to {}".format(obj2, obj1, arec), file=sys.stderr)
         if self.verbose >= 1:
             print("Adj list of obj {}:".format(obj1.id), file=sys.stderr)
             for obj_pair in obj1.adjacency_list:
                 print("\t{}   -->   {}".format(obj_pair, obj1.adjacency_list[obj_pair]), file=sys.stderr)
             print("", file=sys.stderr)
+=======
+            print("Deleting {} being merged to {} according "
+                  "to {}".format(obj2, obj1, arec), file=sys.stderr)
+>>>>>>> waldo-seg/master
 =======
             print("Deleting {} being merged to {} according "
                   "to {}".format(obj2, obj1, arec), file=sys.stderr)

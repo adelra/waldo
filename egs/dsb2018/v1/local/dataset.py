@@ -6,6 +6,7 @@
 
 import torch
 <<<<<<< HEAD
+<<<<<<< HEAD
 import numpy as np
 
 
@@ -57,6 +58,8 @@ class Dataset_dsb2018():
             class_label[c:c +
                         1] = self.transformation(class_label_unscaled)
 =======
+=======
+>>>>>>> waldo-seg/master
 from torch.utils.data import Dataset, DataLoader
 from waldo.data_manipulation import convert_to_combined_image
 from waldo.data_transformation import randomly_crop_combined_image
@@ -85,6 +88,9 @@ class Dataset_dsb2018(Dataset):
         bound = torch.from_numpy(
             cropped_img[n_colors + n_classes:n_colors +
                         n_classes + n_offsets, :, :]).type(torch.FloatTensor)
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 
         return img, class_label, bound
@@ -92,7 +98,10 @@ class Dataset_dsb2018(Dataset):
     def __len__(self):
         return len(self.data)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> waldo-seg/master
 
 
 if __name__ == '__main__':
@@ -111,4 +120,7 @@ if __name__ == '__main__':
     # torchvision.utils.save_image(class_label[:, 1:2, :, :], 'class1.png')
     # torchvision.utils.save_image(bound[:, 0:1, :, :], 'bound0.png')
     # torchvision.utils.save_image(bound[:, 1:2, :, :], 'bound1.png')
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master

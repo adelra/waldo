@@ -1,9 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 #!/usr/bin/env bash
 
 set -e
 stage=0
 =======
+=======
+>>>>>>> waldo-seg/master
 #!/bin/bash
 
 set -e # exit on error
@@ -16,11 +19,15 @@ stage=0
 . ./cmd.sh ## You'll want to change cmd.sh to something that will work on your system.
            ## This relates to the queue.
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 nj=70
 download_dir1=/export/corpora/LDC/LDC2012T15/data
 download_dir2=/export/corpora/LDC/LDC2013T09/data
 download_dir3=/export/corpora/LDC/LDC2013T15/data
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 . ./cmd.sh ## You'll want to change cmd.sh to something that will work on your system.
@@ -52,6 +59,8 @@ if [ $stage -le 0 ]; then
                            --download_dir3 $download_dir3 data/local/$dataset
   done
 =======
+=======
+>>>>>>> waldo-seg/master
 writing_condition1=/export/corpora/LDC/LDC2012T15/docs/writing_conditions.tab
 writing_condition2=/export/corpora/LDC/LDC2013T09/docs/writing_conditions.tab
 writing_condition3=/export/corpora/LDC/LDC2013T15/docs/writing_conditions.tab
@@ -84,6 +93,9 @@ if [ $stage -le 2 ]; then
     --unet-config $dir/configs/unet.config \
     $dir/model_best.pth.tar
 
+<<<<<<< HEAD
+>>>>>>> waldo-seg/master
+=======
 >>>>>>> waldo-seg/master
 fi
 
